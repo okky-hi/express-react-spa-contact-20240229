@@ -1,30 +1,13 @@
-import { Suspense } from "react";
-import { getContacts } from "./api";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { routes } from "./routes";
+
+const router = createBrowserRouter(routes);
 
 function App() {
   return (
     <>
-      <h1>Contacts</h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ContactList />
-      </Suspense>
+      <RouterProvider router={router} />
     </>
-  );
-}
-
-function ContactList() {
-  const contacts = getContacts();
-
-  return (
-    <ul>
-      {contacts.map((contact) => (
-        <li key={contact.id}>
-          <div style={{ color: "blue" }}>
-            {contact.name} | {contact.email}
-          </div>
-        </li>
-      ))}
-    </ul>
   );
 }
 

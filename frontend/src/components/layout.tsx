@@ -6,7 +6,6 @@ export function Layout() {
       <h1>My App</h1>
       <nav>
         <Link to={"/"}>Home</Link> | <Link to={"/contacts"}>Contacts</Link>
-        <a href="/contacts">Contacts</a>
       </nav>
       <Outlet />
     </div>

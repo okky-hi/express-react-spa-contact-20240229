@@ -1,5 +1,6 @@
-import { Suspense, useEffect, useState } from "react";
-import { getContacts, requestGet } from "../api";
+import { Suspense, useState } from "react";
+import { useParams } from 'react-router-dom';
+import { requestGet } from "../api";
 import { Contact } from "../type";
 
 function ContactPage() {
@@ -15,6 +16,7 @@ function ContactList() {
   const [order, setOrder] = useState<string>("asc");
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(25);
+  const params = useParams();
 
   const handlePrevPageClick = () => {
     setPage((page) => page - 1);

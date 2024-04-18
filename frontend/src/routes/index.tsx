@@ -1,6 +1,5 @@
 import { Layout } from "../components/layout";
 import ContactPage from "../pages/contact-page";
-import { Pokemon } from "../pages/pokemon";
 
 export const routes = [
   {
@@ -16,6 +15,10 @@ export const routes = [
       },
       {
         path: "/contacts",
+        element:<ContactPage />,
+      },
+      {
+        path: "/contacts/:id",
         element:<ContactPage />,
       },
     ],

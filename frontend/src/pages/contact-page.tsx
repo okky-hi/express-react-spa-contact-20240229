@@ -1,19 +1,58 @@
-import { Suspense } from "react";
-import { getContacts } from "../api";
+import { Suspense, useEffect, useState } from "react";
+import { getContacts, requestGet } from "../api";
+import { Contact } from "../type";
 
-export function ContactPage() {
+function ContactPage() {
   return (
     <>
       <h1>Contacts</h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ContactList />
-      </Suspense>
+      <ContactList/>
     </>
   );
 }
 
-export function ContactList() {
-  const contacts = getContacts();
+function ContactList() {
+  const [order, setOrder] = useState<string>("asc");
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(25);
+
+  const handlePrevPageClick = () => {
+    setPage((page) => page - 1);
+  };
+
+  const handleNextPageClick = () => {
+    setPage((page) => page + 1);
+  };
+
+  const handleLimitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLimit((limit) => Number(e.target.value));
+  };
+
+  const handleClick = () => {
+    setOrder(order === "desc" ? "asc" : "desc");
+  };
+
+  return (
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Contacts order={order} page={page} limit={limit}/>
+      </Suspense>
+      <button onClick={handlePrevPageClick}>前へ</button>
+      <button onClick={handleNextPageClick}>次へ</button>
+      <br />
+      <br />
+      <input type="number" value={limit} onChange={handleLimitChange} />
+      <br />
+      <br />
+      <div>
+        <button onClick={handleClick}>asc/desc</button>
+      </div>
+    </>
+  );
+}
+
+function Contacts({ order, page, limit }: { order: string, page: number, limit: number }) {
+  const contacts = requestGet<Contact[]>(`/contacts?order=${order}&page=${page}&limit=${limit}`);
 
   return (
     <ul>
@@ -27,3 +66,5 @@ export function ContactList() {
     </ul>
   );
 }
+
+export default ContactPage;

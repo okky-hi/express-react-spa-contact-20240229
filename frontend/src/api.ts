@@ -67,3 +67,15 @@ export const getContacts = generateSuspended(
   requestGetContacts,
   "requestGetContacts"
 );
+
+export const requestGet = <R = Record<string, unknown>>(path: string) => {
+  const req = async () => {
+    const ret = await fetch(`http://localhost:${apiPort}${path}`);
+    if (!ret.ok) {
+      throw new Error("Request failed");
+    }
+    return (await ret.json()) as R;
+  };
+
+  return generateSuspended(req, path)();
+};
